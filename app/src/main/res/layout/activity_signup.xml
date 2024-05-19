@@ -29,6 +29,8 @@
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
+        android:alpha="0"
+        tools:alpha="100"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,6 +44,8 @@
         android:layout_marginTop="8dp"
         android:text="@string/name"
         android:textColor="@color/black"
+        android:alpha="0"
+        tools:alpha="100"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
 
@@ -62,7 +66,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="text" />
+            android:inputType="text"
+            android:alpha="0"
+            tools:alpha="100"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
@@ -73,6 +79,8 @@
         android:layout_marginTop="16dp"
         android:text="@string/email"
         android:textColor="@color/black"
+        android:alpha="0"
+        tools:alpha="100"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameEditTextLayout" />
 
@@ -93,7 +101,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textEmailAddress"/>
+            android:inputType="textEmailAddress"
+            android:alpha="0"
+            tools:alpha="100"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
@@ -104,6 +114,8 @@
         android:layout_marginTop="8dp"
         android:text="@string/password"
         android:textColor="@color/black"
+        android:alpha="0"
+        tools:alpha="100"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailEditTextLayout" />
 
@@ -125,7 +137,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPassword"/>
+            android:inputType="textPassword"
+            android:alpha="0"
+            tools:alpha="100"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
@@ -137,6 +151,8 @@
         android:layout_marginEnd="32dp"
         android:backgroundTint="@color/navy"
         android:text="@string/signup"
+        android:alpha="0"
+        tools:alpha="100"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordEditTextLayout" />

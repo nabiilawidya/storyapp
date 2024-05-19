@@ -1,8 +1,11 @@
 package com.dicoding.picodiploma.loginwithanimation.view.signup
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
@@ -26,6 +29,7 @@ class SignupActivity : AppCompatActivity() {
         setupView()
         setupAction()
         setupObserve()
+        playAnimation()
     }
 
     private fun setupObserve() {
@@ -73,5 +77,30 @@ class SignupActivity : AppCompatActivity() {
 
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun playAnimation() {
+        ObjectAnimator.ofFloat(binding.imageView, View.TRANSLATION_X, -30f, 30f).apply {
+            duration = 6000
+            repeatCount = ObjectAnimator.INFINITE
+            repeatMode = ObjectAnimator.REVERSE
+        }.start()
+
+        val title = ObjectAnimator.ofFloat(binding.titleTextView, View.ALPHA, 1f).setDuration(200)
+        val tvName = ObjectAnimator.ofFloat(binding.nameTextView, View.ALPHA, 1f).setDuration(200)
+        val edName = ObjectAnimator.ofFloat(binding.nameEditText, View.ALPHA, 1f).setDuration(200)
+        val tvEmail = ObjectAnimator.ofFloat(binding.emailTextView, View.ALPHA, 1f).setDuration(200)
+        val edEmail = ObjectAnimator.ofFloat(binding.emailEditText, View.ALPHA, 1f).setDuration(200)
+        val tvPassword = ObjectAnimator.ofFloat(binding.passwordTextView, View.ALPHA, 1f).setDuration(200)
+        val edPassword = ObjectAnimator.ofFloat(binding.passwordEditText, View.ALPHA, 1f).setDuration(200)
+        val button = ObjectAnimator.ofFloat(binding.signupButton, View.ALPHA, 1f).setDuration(200)
+        val together = AnimatorSet().apply {
+            playTogether(title, tvName, edName, tvEmail, edEmail, tvPassword, edPassword, button)
+            startDelay = 100
+        }
+        AnimatorSet().apply {
+            playSequentially(title, tvName, edName, tvEmail, edEmail, tvPassword, edPassword,button, together)
+            start()
+        }
     }
 }

@@ -1,8 +1,11 @@
 package com.dicoding.picodiploma.loginwithanimation.view.login
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
@@ -27,6 +30,7 @@ class LoginActivity : AppCompatActivity() {
         setupView()
         setupAction()
         setupObserve()
+        playAnimation()
     }
 
     private fun setupView() {
@@ -77,6 +81,30 @@ class LoginActivity : AppCompatActivity() {
 
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun playAnimation(){
+        ObjectAnimator.ofFloat(binding.imageView, View.TRANSLATION_X, -30f, 30f).apply {
+            duration = 6000
+            repeatCount = ObjectAnimator.INFINITE
+            repeatMode = ObjectAnimator.REVERSE
+        }.start()
+
+        val title = ObjectAnimator.ofFloat(binding.titleTextView, View.ALPHA, 1f).setDuration(200)
+        val message = ObjectAnimator.ofFloat(binding.messageTextView, View.ALPHA, 1f).setDuration(200)
+        val tvEmail = ObjectAnimator.ofFloat(binding.emailTextView, View.ALPHA, 1f).setDuration(200)
+        val edEmail = ObjectAnimator.ofFloat(binding.emailEditText, View.ALPHA, 1f).setDuration(200)
+        val tvPassword = ObjectAnimator.ofFloat(binding.passwordTextView, View.ALPHA, 1f).setDuration(200)
+        val edPassword = ObjectAnimator.ofFloat(binding.passwordEditText, View.ALPHA, 1f).setDuration(200)
+        val button = ObjectAnimator.ofFloat(binding.loginButton, View.ALPHA, 1f).setDuration(200)
+        val together = AnimatorSet().apply {
+            playTogether(title, message, tvEmail, edEmail, tvPassword, edPassword, button)
+            startDelay = 100
+        }
+        AnimatorSet().apply {
+            playSequentially(title, message, tvEmail, edEmail, tvPassword, edPassword, button, together)
+            start()
+        }
     }
 
     companion object{
