@@ -71,7 +71,6 @@ class LoginActivity : AppCompatActivity() {
                     true
                 )
                 loginViewModel.saveSession(user)
-
             }
         }
     }

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.picodiploma.loginwithanimation.adapter.StoryAdapter
 import com.dicoding.picodiploma.loginwithanimation.databinding.ActivityMainBinding
 import com.dicoding.picodiploma.loginwithanimation.view.ViewModelFactory
+import com.dicoding.picodiploma.loginwithanimation.view.addstory.AddStoryActivity
 import com.dicoding.picodiploma.loginwithanimation.view.welcome.WelcomeActivity
 
 class MainActivity : AppCompatActivity() {
@@ -58,6 +59,13 @@ class MainActivity : AppCompatActivity() {
         binding.rvStories.apply {
             adapter = storyAdapter
             layoutManager = LinearLayoutManager(context)
+        }
+    }
+
+    private fun moveToAddStory(){
+        binding.btnAddStory.apply {
+            val intent = Intent(this@MainActivity, AddStoryActivity::class.java)
+            startActivity(intent)
         }
     }
 
