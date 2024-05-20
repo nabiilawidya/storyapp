@@ -34,8 +34,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setupView() {
-        @Suppress("DEPRECATION")
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        @Suppress("DEPRECATION") if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             window.insetsController?.hide(WindowInsets.Type.statusBars())
         } else {
             window.setFlags(
@@ -54,19 +53,18 @@ class LoginActivity : AppCompatActivity() {
                 showToast("Please fill all fields")
                 return@setOnClickListener
             } else {
-                binding.apply{
+                binding.apply {
                     loginViewModel.login(
-                        emailEditText.text.toString(),
-                        passwordEditText.text.toString()
+                        emailEditText.text.toString(), passwordEditText.text.toString()
                     )
                 }
             }
         }
     }
 
-    private fun setupObserve(){
-        loginViewModel.loginResponse.observe(this){ loginResponse ->
-            if(loginResponse.error == false){
+    private fun setupObserve() {
+        loginViewModel.loginResponse.observe(this) { loginResponse ->
+            if (loginResponse.error == false) {
                 loginViewModel.saveSession(
                     UserModel(
                         binding.emailEditText.text.toString(),
@@ -74,10 +72,10 @@ class LoginActivity : AppCompatActivity() {
                         true
                     )
                 )
-                val intent = Intent(this@LoginActivity,  MainActivity::class.java)
+                val intent = Intent(this@LoginActivity, MainActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                 startActivity(intent)
-            }else{
+            } else {
                 showToast(loginResponse.message.toString())
             }
         }
@@ -95,18 +93,23 @@ class LoginActivity : AppCompatActivity() {
         }.start()
 
         val title = ObjectAnimator.ofFloat(binding.titleTextView, View.ALPHA, 1f).setDuration(200)
-        val message = ObjectAnimator.ofFloat(binding.messageTextView, View.ALPHA, 1f).setDuration(200)
+        val message =
+            ObjectAnimator.ofFloat(binding.messageTextView, View.ALPHA, 1f).setDuration(200)
         val tvEmail = ObjectAnimator.ofFloat(binding.emailTextView, View.ALPHA, 1f).setDuration(200)
         val edEmail = ObjectAnimator.ofFloat(binding.emailEditText, View.ALPHA, 1f).setDuration(200)
-        val tvPassword = ObjectAnimator.ofFloat(binding.passwordTextView, View.ALPHA, 1f).setDuration(200)
-        val edPassword = ObjectAnimator.ofFloat(binding.passwordEditText, View.ALPHA, 1f).setDuration(200)
+        val tvPassword =
+            ObjectAnimator.ofFloat(binding.passwordTextView, View.ALPHA, 1f).setDuration(200)
+        val edPassword =
+            ObjectAnimator.ofFloat(binding.passwordEditText, View.ALPHA, 1f).setDuration(200)
         val button = ObjectAnimator.ofFloat(binding.loginButton, View.ALPHA, 1f).setDuration(200)
         val together = AnimatorSet().apply {
             playTogether(title, message, tvEmail, edEmail, tvPassword, edPassword, button)
             startDelay = 100
         }
         AnimatorSet().apply {
-            playSequentially(title, message, tvEmail, edEmail, tvPassword, edPassword, button, together)
+            playSequentially(
+                title, message, tvEmail, edEmail, tvPassword, edPassword, button, together
+            )
             start()
         }
     }

@@ -13,17 +13,19 @@ class LoginViewModel(private val repository: UserRepository) : ViewModel() {
     private val _loginResponse = MutableLiveData<LoginResponse>()
     val loginResponse: LiveData<LoginResponse> = _loginResponse
 
-    fun login(email: String, password: String){
+    fun login(email: String, password: String) {
         viewModelScope.launch {
             try {
                 val response = repository.login(email, password)
                 _loginResponse.value = response
             } catch (e: Exception) {
                 e.printStackTrace()
-                _loginResponse.value = LoginResponse(error = true, message = e.message ?: "Unknown error")
+                _loginResponse.value =
+                    LoginResponse(error = true, message = e.message ?: "Unknown error")
             }
         }
     }
+
     fun saveSession(user: UserModel) {
         viewModelScope.launch {
             repository.saveSession(user)

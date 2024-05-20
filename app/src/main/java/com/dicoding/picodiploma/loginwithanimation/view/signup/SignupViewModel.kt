@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dicoding.picodiploma.loginwithanimation.data.UserRepository
-import com.dicoding.picodiploma.loginwithanimation.data.pref.UserModel
 import com.dicoding.picodiploma.loginwithanimation.data.remote.response.SignupResponse
 import kotlinx.coroutines.launch
 
@@ -16,12 +15,6 @@ class SignupViewModel (private val repository: UserRepository) : ViewModel() {
     fun signup(name: String, email: String, password: String){
         viewModelScope.launch {
             repository.signup(name, email, password)
-        }
-    }
-
-    fun saveSession(user: UserModel) {
-        viewModelScope.launch {
-            repository.saveSession(user)
         }
     }
 }

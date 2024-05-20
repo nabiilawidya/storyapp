@@ -3,11 +3,15 @@ package com.dicoding.picodiploma.loginwithanimation.view.main
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.dicoding.picodiploma.loginwithanimation.R
 import com.dicoding.picodiploma.loginwithanimation.adapter.StoryAdapter
 import com.dicoding.picodiploma.loginwithanimation.databinding.ActivityMainBinding
 import com.dicoding.picodiploma.loginwithanimation.view.ViewModelFactory
@@ -26,27 +30,33 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        moveToAddStory()
-
         mainViewModel.getSession().observe(this) { user ->
             if (!user.isLogin) {
                 startActivity(Intent(this, WelcomeActivity::class.java))
                 finish()
-            } else{
+            } else {
                 setupRecycleView()
                 mainViewModel.getStories()
             }
         }
         setupView()
 
-        mainViewModel.storyResponse.observe(this){ story ->
+        mainViewModel.isLoading.observe(this) {
+            showLoading(it)
+        }
+
+        mainViewModel.storyResponse.observe(this) { story ->
             storyAdapter.submitList(story)
+        }
+
+        binding.btnAddStory.setOnClickListener {
+            val intentAddStory = Intent(this, AddStoryActivity::class.java)
+            startActivity(intentAddStory)
         }
     }
 
     private fun setupView() {
-        @Suppress("DEPRECATION")
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        @Suppress("DEPRECATION") if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             window.insetsController?.hide(WindowInsets.Type.statusBars())
         } else {
             window.setFlags(
@@ -56,7 +66,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupRecycleView(){
+    private fun setupRecycleView() {
         storyAdapter = StoryAdapter(emptyList())
         binding.rvStories.apply {
             adapter = storyAdapter
@@ -64,12 +74,23 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun moveToAddStory(){
-        binding.btnAddStory.setOnClickListener {
-            mainViewModel.logout()
-        }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.option_menu, menu)
+        return super.onCreateOptionsMenu(menu)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.btnLogout -> {
+                mainViewModel.logout()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
 
 
 }

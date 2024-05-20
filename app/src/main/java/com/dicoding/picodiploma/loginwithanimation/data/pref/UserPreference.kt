@@ -38,18 +38,6 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
         }
     }
 
-    fun getToken(): Flow<String> {
-        return dataStore.data.map { preferences ->
-            preferences[TOKEN_KEY] ?: ""
-        }
-    }
-
-    suspend fun clearToken() {
-        dataStore.edit { preferences ->
-            preferences[TOKEN_KEY] = ""
-        }
-    }
-
     companion object {
         @Volatile
         private var INSTANCE: UserPreference? = null

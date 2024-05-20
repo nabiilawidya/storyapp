@@ -13,10 +13,13 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(private val repository: UserRepository) : ViewModel() {
     private val _userSession = MutableLiveData<UserModel>()
-    val userSession: LiveData<UserModel> get() = _userSession
-
     private val _storyResponse = MutableLiveData<List<ListStoryItem>>()
+
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
+
     val storyResponse: LiveData<List<ListStoryItem>> get() = _storyResponse
+
 
     init {
         loadUserSession()
@@ -34,13 +37,16 @@ class MainViewModel(private val repository: UserRepository) : ViewModel() {
         return repository.getSession().asLiveData()
     }
 
-    fun getStories(){
+    fun getStories() {
+        _isLoading.value = true
         viewModelScope.launch {
             try {
                 val listStory = repository.getStories()
                 _storyResponse.value = listStory
+                _isLoading.value = false
             } catch (e: Exception) {
                 e.printStackTrace()
+                _isLoading.postValue(false)
             }
         }
     }

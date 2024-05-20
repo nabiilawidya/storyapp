@@ -49,8 +49,7 @@ class SignupActivity : AppCompatActivity() {
     }
 
     private fun setupView() {
-        @Suppress("DEPRECATION")
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        @Suppress("DEPRECATION") if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             window.insetsController?.hide(WindowInsets.Type.statusBars())
         } else {
             window.setFlags(
@@ -91,15 +90,19 @@ class SignupActivity : AppCompatActivity() {
         val edName = ObjectAnimator.ofFloat(binding.nameEditText, View.ALPHA, 1f).setDuration(200)
         val tvEmail = ObjectAnimator.ofFloat(binding.emailTextView, View.ALPHA, 1f).setDuration(200)
         val edEmail = ObjectAnimator.ofFloat(binding.emailEditText, View.ALPHA, 1f).setDuration(200)
-        val tvPassword = ObjectAnimator.ofFloat(binding.passwordTextView, View.ALPHA, 1f).setDuration(200)
-        val edPassword = ObjectAnimator.ofFloat(binding.passwordEditText, View.ALPHA, 1f).setDuration(200)
+        val tvPassword =
+            ObjectAnimator.ofFloat(binding.passwordTextView, View.ALPHA, 1f).setDuration(200)
+        val edPassword =
+            ObjectAnimator.ofFloat(binding.passwordEditText, View.ALPHA, 1f).setDuration(200)
         val button = ObjectAnimator.ofFloat(binding.signupButton, View.ALPHA, 1f).setDuration(200)
         val together = AnimatorSet().apply {
             playTogether(title, tvName, edName, tvEmail, edEmail, tvPassword, edPassword, button)
             startDelay = 100
         }
         AnimatorSet().apply {
-            playSequentially(title, tvName, edName, tvEmail, edEmail, tvPassword, edPassword,button, together)
+            playSequentially(
+                title, tvName, edName, tvEmail, edEmail, tvPassword, edPassword, button, together
+            )
             start()
         }
     }

@@ -12,7 +12,8 @@ import com.dicoding.picodiploma.loginwithanimation.R
 import com.dicoding.picodiploma.loginwithanimation.data.remote.response.ListStoryItem
 import com.dicoding.picodiploma.loginwithanimation.view.detail.DetailActivity
 
-class StoryAdapter(private var listStories: List<ListStoryItem>) : RecyclerView.Adapter<StoryAdapter.ViewHolder>() {
+class StoryAdapter(private var listStories: List<ListStoryItem>) :
+    RecyclerView.Adapter<StoryAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(storyItem: ListStoryItem) {
