@@ -52,30 +52,27 @@ class LoginActivity : AppCompatActivity() {
             val password = binding.passwordEditText.text.toString()
             if (email.isBlank() || password.isBlank()) {
                 showToast("Please fill all fields")
-                return@setOnClickListener
             } else {
-                val intent = Intent(this@LoginActivity,  MainActivity::class.java)
+                loginViewModel.login(email, password)
+                val intent = Intent(this@LoginActivity, MainActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                 startActivity(intent)
             }
-            loginViewModel.saveSession(UserModel(email, "sample_token"))
         }
     }
-    private fun setupObserve(){
-        binding.apply {
-            loginViewModel.login(
-                emailEditText.text.toString(),
-                passwordEditText.text.toString()
-            )
-        }
-        loginViewModel.loginResponse.observe(this){ loginResponse ->
-            loginViewModel.saveSession(
-                UserModel(
-                    loginResponse.loginResult?.name.toString(),
-                    AUTH_KEY + (loginResponse.loginResult?.token.toString()),
+
+    private fun setupObserve() {
+        loginViewModel.loginResponse.observe(this) { loginResponse ->
+            loginResponse?.let {
+                val token = AUTH_KEY + (it.loginResult?.token ?: "")
+                val user = UserModel(
+                    it.loginResult?.name ?: "",
+                    token,
                     true
                 )
-            )
+                loginViewModel.saveSession(user)
+
+            }
         }
     }
 
@@ -83,7 +80,7 @@ class LoginActivity : AppCompatActivity() {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    private fun playAnimation(){
+    private fun playAnimation() {
         ObjectAnimator.ofFloat(binding.imageView, View.TRANSLATION_X, -30f, 30f).apply {
             duration = 6000
             repeatCount = ObjectAnimator.INFINITE
@@ -107,7 +104,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    companion object{
+    companion object {
         private const val AUTH_KEY = "Bearer "
     }
 }

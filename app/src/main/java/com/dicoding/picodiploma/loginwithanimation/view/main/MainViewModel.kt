@@ -16,7 +16,7 @@ class MainViewModel(private val repository: UserRepository) : ViewModel() {
     val userSession: LiveData<UserModel> get() = _userSession
 
     private val _storyResponse = MutableLiveData<List<ListStoryItem>>()
-    val storyResponse: LiveData<List<ListStoryItem>> = _storyResponse
+    val storyResponse: LiveData<List<ListStoryItem>> get() = _storyResponse
 
     init {
         loadUserSession()
@@ -29,14 +29,15 @@ class MainViewModel(private val repository: UserRepository) : ViewModel() {
             }
         }
     }
+
     fun getSession(): LiveData<UserModel> {
         return repository.getSession().asLiveData()
     }
 
-    fun getStories(){
+    fun getStories() {
         viewModelScope.launch {
             try {
-                val listStory = repository.getStories(repository.getToken().first())
+                val listStory = repository.getStories()
                 _storyResponse.value = listStory
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -49,5 +50,4 @@ class MainViewModel(private val repository: UserRepository) : ViewModel() {
             repository.logout()
         }
     }
-
 }

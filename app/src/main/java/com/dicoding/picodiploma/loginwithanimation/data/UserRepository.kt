@@ -1,11 +1,13 @@
 package com.dicoding.picodiploma.loginwithanimation.data
 
 
+import android.util.Log
 import com.dicoding.picodiploma.loginwithanimation.data.pref.UserModel
 import com.dicoding.picodiploma.loginwithanimation.data.pref.UserPreference
 import com.dicoding.picodiploma.loginwithanimation.data.remote.response.ListStoryItem
 import com.dicoding.picodiploma.loginwithanimation.data.remote.retrofit.ApiService
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 
 class UserRepository private constructor(
     private val userPreference: UserPreference,
@@ -21,7 +23,11 @@ class UserRepository private constructor(
         userPreference.saveSession(user)
     }
 
-    suspend fun getStories(token: String): List<ListStoryItem> {
+    suspend fun getStories(): List<ListStoryItem> {
+        val token = userPreference.getToken().first()
+        Log.d("UserRepository", "Token retrieved: $token")  // Log token
+        if (token.isEmpty()) throw Exception("Missing authentication token")
+
         val response = apiService.getStories("Bearer $token")
         return if (response.error == false) {
             response.listStory?.filterNotNull() ?: emptyList()

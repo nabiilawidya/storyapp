@@ -20,7 +20,6 @@ class LoginViewModel(private val repository: UserRepository) : ViewModel() {
                 _loginResponse.value = response
             } catch (e: Exception) {
                 e.printStackTrace()
-                // Handle exception and set error state in loginResponse
                 _loginResponse.value = LoginResponse(error = true, message = e.message ?: "Unknown error")
             }
         }
