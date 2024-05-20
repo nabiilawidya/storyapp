@@ -24,11 +24,7 @@ class UserRepository private constructor(
     }
 
     suspend fun getStories(): List<ListStoryItem> {
-        val token = userPreference.getToken().first()
-        Log.d("UserRepository", "Token retrieved: $token")  // Log token
-        if (token.isEmpty()) throw Exception("Missing authentication token")
-
-        val response = apiService.getStories("Bearer $token")
+        val response = apiService.getStories()
         return if (response.error == false) {
             response.listStory?.filterNotNull() ?: emptyList()
         } else {

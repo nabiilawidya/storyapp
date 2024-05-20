@@ -1,5 +1,6 @@
 package com.dicoding.picodiploma.loginwithanimation.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dicoding.picodiploma.loginwithanimation.R
 import com.dicoding.picodiploma.loginwithanimation.data.remote.response.ListStoryItem
+import com.dicoding.picodiploma.loginwithanimation.view.detail.DetailActivity
 
 class StoryAdapter(private var listStories: List<ListStoryItem>) : RecyclerView.Adapter<StoryAdapter.ViewHolder>() {
 
@@ -18,7 +20,15 @@ class StoryAdapter(private var listStories: List<ListStoryItem>) : RecyclerView.
             itemView.findViewById<TextView>(R.id.tvDescription).text = storyItem.description
             Glide.with(itemView.context)
                 .load(storyItem.photoUrl)
+                .fitCenter()
                 .into(itemView.findViewById<ImageView>(R.id.ivPhoto))
+
+            itemView.setOnClickListener { view ->
+                val intentDetail = Intent(view.context, DetailActivity::class.java).apply {
+                    putExtra(DetailActivity.EXTRA_DETAIL, storyItem)
+                }
+                view.context.startActivity(intentDetail)
+            }
         }
     }
 

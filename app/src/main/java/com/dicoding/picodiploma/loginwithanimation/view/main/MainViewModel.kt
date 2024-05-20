@@ -34,7 +34,7 @@ class MainViewModel(private val repository: UserRepository) : ViewModel() {
         return repository.getSession().asLiveData()
     }
 
-    fun getStories() {
+    fun getStories(){
         viewModelScope.launch {
             try {
                 val listStory = repository.getStories()

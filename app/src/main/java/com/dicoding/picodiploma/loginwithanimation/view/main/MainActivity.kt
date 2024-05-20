@@ -26,6 +26,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        moveToAddStory()
+
         mainViewModel.getSession().observe(this) { user ->
             if (!user.isLogin) {
                 startActivity(Intent(this, WelcomeActivity::class.java))
@@ -63,9 +65,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun moveToAddStory(){
-        binding.btnAddStory.apply {
-            val intent = Intent(this@MainActivity, AddStoryActivity::class.java)
-            startActivity(intent)
+        binding.btnAddStory.setOnClickListener {
+            mainViewModel.logout()
         }
     }
 

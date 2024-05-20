@@ -52,25 +52,33 @@ class LoginActivity : AppCompatActivity() {
             val password = binding.passwordEditText.text.toString()
             if (email.isBlank() || password.isBlank()) {
                 showToast("Please fill all fields")
+                return@setOnClickListener
             } else {
-                loginViewModel.login(email, password)
-                val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                startActivity(intent)
+                binding.apply{
+                    loginViewModel.login(
+                        emailEditText.text.toString(),
+                        passwordEditText.text.toString()
+                    )
+                }
             }
         }
     }
 
-    private fun setupObserve() {
-        loginViewModel.loginResponse.observe(this) { loginResponse ->
-            loginResponse?.let {
-                val token = AUTH_KEY + (it.loginResult?.token ?: "")
-                val user = UserModel(
-                    it.loginResult?.name ?: "",
-                    token,
-                    true
+    private fun setupObserve(){
+        loginViewModel.loginResponse.observe(this){ loginResponse ->
+            if(loginResponse.error == false){
+                loginViewModel.saveSession(
+                    UserModel(
+                        binding.emailEditText.text.toString(),
+                        loginResponse.loginResult?.token.toString(),
+                        true
+                    )
                 )
-                loginViewModel.saveSession(user)
+                val intent = Intent(this@LoginActivity,  MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                startActivity(intent)
+            }else{
+                showToast(loginResponse.message.toString())
             }
         }
     }
@@ -101,9 +109,5 @@ class LoginActivity : AppCompatActivity() {
             playSequentially(title, message, tvEmail, edEmail, tvPassword, edPassword, button, together)
             start()
         }
-    }
-
-    companion object {
-        private const val AUTH_KEY = "Bearer "
     }
 }
