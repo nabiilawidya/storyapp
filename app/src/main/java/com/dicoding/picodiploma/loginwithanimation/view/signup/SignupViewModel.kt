@@ -8,13 +8,19 @@ import com.dicoding.picodiploma.loginwithanimation.data.UserRepository
 import com.dicoding.picodiploma.loginwithanimation.data.remote.response.SignupResponse
 import kotlinx.coroutines.launch
 
-class SignupViewModel (private val repository: UserRepository) : ViewModel() {
+class SignupViewModel(private val repository: UserRepository) : ViewModel() {
     private val _signupResponse = MutableLiveData<SignupResponse>()
     val signupResponse: LiveData<SignupResponse> = _signupResponse
 
-    fun signup(name: String, email: String, password: String){
+    fun signup(name: String, email: String, password: String) {
         viewModelScope.launch {
-            repository.signup(name, email, password)
+            try {
+                val response = repository.signup(name, email, password)
+                _signupResponse.value = response
+            } catch (e: Exception) {
+                e.printStackTrace()
+                _signupResponse.value = SignupResponse(error = true, message = e.message ?: "Unknown error")
+            }
         }
     }
 }
