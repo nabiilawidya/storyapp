@@ -23,10 +23,7 @@ class DetailActivity : AppCompatActivity() {
             binding.apply {
                 tvName.text = it.name
                 tvDescription.text = it.description
-                Glide.with(this@DetailActivity)
-                    .load(it.photoUrl)
-                    .fitCenter()
-                    .into(ivPhoto)
+                Glide.with(this@DetailActivity).load(it.photoUrl).fitCenter().into(ivPhoto)
             }
         }
     }

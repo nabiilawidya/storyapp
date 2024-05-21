@@ -5,13 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.dicoding.picodiploma.loginwithanimation.data.UserRepository
+import com.dicoding.picodiploma.loginwithanimation.data.AuthRepository
+import com.dicoding.picodiploma.loginwithanimation.data.StoryRepository
 import com.dicoding.picodiploma.loginwithanimation.data.pref.UserModel
 import com.dicoding.picodiploma.loginwithanimation.data.remote.response.ListStoryItem
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val repository: UserRepository) : ViewModel() {
+class MainViewModel(
+    private val authRepository: AuthRepository, private val storyRepository: StoryRepository
+) : ViewModel() {
     private val _userSession = MutableLiveData<UserModel>()
     private val _storyResponse = MutableLiveData<List<ListStoryItem>>()
 
@@ -20,28 +22,27 @@ class MainViewModel(private val repository: UserRepository) : ViewModel() {
 
     val storyResponse: LiveData<List<ListStoryItem>> get() = _storyResponse
 
-
     init {
         loadUserSession()
     }
 
     private fun loadUserSession() {
         viewModelScope.launch {
-            repository.getSession().collect { userModel ->
+            authRepository.getSession().collect { userModel ->
                 _userSession.value = userModel
             }
         }
     }
 
     fun getSession(): LiveData<UserModel> {
-        return repository.getSession().asLiveData()
+        return authRepository.getSession().asLiveData()
     }
 
     fun getStories() {
         _isLoading.value = true
         viewModelScope.launch {
             try {
-                val listStory = repository.getStories()
+                val listStory = storyRepository.getStories()
                 _storyResponse.value = listStory
                 _isLoading.value = false
             } catch (e: Exception) {
@@ -53,7 +54,8 @@ class MainViewModel(private val repository: UserRepository) : ViewModel() {
 
     fun logout() {
         viewModelScope.launch {
-            repository.logout()
+            authRepository.logout()
         }
     }
 }
+

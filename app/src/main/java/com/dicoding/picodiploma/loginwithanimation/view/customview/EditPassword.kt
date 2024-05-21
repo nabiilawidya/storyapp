@@ -7,9 +7,7 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatEditText
 
 class EditPassword @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyleAttrs: Int = android.R.attr.editTextStyle
+    context: Context, attrs: AttributeSet? = null, defStyleAttrs: Int = android.R.attr.editTextStyle
 ) : AppCompatEditText(context, attrs, defStyleAttrs) {
     init {
         addTextChangedListener(object : TextWatcher {

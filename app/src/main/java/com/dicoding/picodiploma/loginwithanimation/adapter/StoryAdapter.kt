@@ -19,9 +19,7 @@ class StoryAdapter(private var listStories: List<ListStoryItem>) :
         fun bind(storyItem: ListStoryItem) {
             itemView.findViewById<TextView>(R.id.tvName).text = storyItem.name
             itemView.findViewById<TextView>(R.id.tvDescription).text = storyItem.description
-            Glide.with(itemView.context)
-                .load(storyItem.photoUrl)
-                .fitCenter()
+            Glide.with(itemView.context).load(storyItem.photoUrl).fitCenter()
                 .into(itemView.findViewById<ImageView>(R.id.ivPhoto))
 
             itemView.setOnClickListener { view ->

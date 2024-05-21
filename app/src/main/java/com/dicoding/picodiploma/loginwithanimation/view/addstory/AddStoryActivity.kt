@@ -69,7 +69,6 @@ class AddStoryActivity : AppCompatActivity() {
         }
     }
 
-
     private fun showImage() {
         currentImageUri?.let {
             Log.d("Image URI", "showImage: $it")
@@ -93,7 +92,7 @@ class AddStoryActivity : AppCompatActivity() {
                 "photo", imageFile.name, requestImageFile
             )
 
-            addStoryViewModel.getUser().observe(this) {
+            addStoryViewModel.getUser().observe(this) { user ->
                 addStoryViewModel.addStory(multipartBody, requestBody, lat = null, lon = null)
             }
 
