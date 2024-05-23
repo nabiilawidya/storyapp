@@ -5,6 +5,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatEditText
+import com.dicoding.picodiploma.loginwithanimation.R
 
 class EditPassword @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttrs: Int = android.R.attr.editTextStyle
@@ -17,7 +18,7 @@ class EditPassword @JvmOverloads constructor(
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 if (s.toString().length < 8) {
-                    setError("Password tidak boleh kurang dari 8 karakter", null)
+                    setError(context.getString(R.string.invalid_password), null)
                 } else {
                     error = null
                 }

@@ -19,5 +19,6 @@
     <string name="upload">Upload</string>
     <string name="prevImage">Image Preview</string>
     <string name="empty_image_warning">Tidak ada gambar</string>
-
+    <string name="invalid_password">Password tidak boleh kurang dari 8 karakter</string>
+    <string name="invalid_email">Alamat email harus berupa email yang valid</string>
 </resources>

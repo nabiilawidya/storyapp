@@ -36,9 +36,11 @@ class AddStoryActivity : AppCompatActivity() {
         binding = ActivityAddStoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.galleryButton.setOnClickListener { startGallery() }
-        binding.cameraButton.setOnClickListener { startCamera() }
-        binding.uploadButton.setOnClickListener { uploadImage() }
+        binding.apply {
+            galleryButton.setOnClickListener { startGallery() }
+            cameraButton.setOnClickListener { startCamera() }
+            uploadButton.setOnClickListener { uploadImage() }
+        }
     }
 
     private fun startGallery() {
