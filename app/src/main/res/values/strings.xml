@@ -21,4 +21,7 @@
     <string name="empty_image_warning">Tidak ada gambar</string>
     <string name="invalid_password">Password tidak boleh kurang dari 8 karakter</string>
     <string name="invalid_email">Alamat email harus berupa email yang valid</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="log_out">Log out</string>
+    <string name="maps">Maps</string>
 </resources>

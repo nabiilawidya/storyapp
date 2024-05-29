@@ -24,6 +24,8 @@ class StoryRepository private constructor(
         lon: Float? = null
     ) = storyApiService.uploadImage(multipartBody, description, lat, lon)
 
+    suspend fun getStoriesWithLocation() = storyApiService.getStoriesWithLocation()
+
     companion object {
         fun getInstance(storyApiService: StoryApiService): StoryRepository {
             return StoryRepository(storyApiService)

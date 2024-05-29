@@ -16,6 +16,7 @@ import com.dicoding.picodiploma.loginwithanimation.adapter.StoryAdapter
 import com.dicoding.picodiploma.loginwithanimation.databinding.ActivityMainBinding
 import com.dicoding.picodiploma.loginwithanimation.view.ViewModelFactory
 import com.dicoding.picodiploma.loginwithanimation.view.addstory.AddStoryActivity
+import com.dicoding.picodiploma.loginwithanimation.view.maps.MapsActivity
 import com.dicoding.picodiploma.loginwithanimation.view.welcome.WelcomeActivity
 
 class MainActivity : AppCompatActivity() {
@@ -83,6 +84,10 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.btnLogout -> {
                 mainViewModel.logout()
+            }
+            R.id.btnMaps -> {
+                val intentMaps = Intent(this, MapsActivity::class.java)
+                startActivity(intentMaps)
             }
         }
         return super.onOptionsItemSelected(item)
