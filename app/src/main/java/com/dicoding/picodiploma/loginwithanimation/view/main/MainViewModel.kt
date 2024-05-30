@@ -17,7 +17,6 @@ class MainViewModel(
     private val authRepository: AuthRepository, private val storyRepository: StoryRepository
 ) : ViewModel() {
     private val _userSession = MutableLiveData<UserModel>()
-    private val _storyResponse = MutableLiveData<List<ListStoryItem>>()
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
