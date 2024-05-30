@@ -3,8 +3,8 @@ package com.dicoding.picodiploma.loginwithanimation.view
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.dicoding.picodiploma.loginwithanimation.data.AuthRepository
-import com.dicoding.picodiploma.loginwithanimation.data.StoryRepository
+import com.dicoding.picodiploma.loginwithanimation.data.repository.AuthRepository
+import com.dicoding.picodiploma.loginwithanimation.data.repository.StoryRepository
 import com.dicoding.picodiploma.loginwithanimation.di.Injection
 import com.dicoding.picodiploma.loginwithanimation.view.addstory.AddStoryViewModel
 import com.dicoding.picodiploma.loginwithanimation.view.login.LoginViewModel

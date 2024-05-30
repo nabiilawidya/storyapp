@@ -6,14 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dicoding.picodiploma.loginwithanimation.R
 import com.dicoding.picodiploma.loginwithanimation.data.remote.response.ListStoryItem
 import com.dicoding.picodiploma.loginwithanimation.view.detail.DetailActivity
 
-class StoryAdapter(private var listStories: List<ListStoryItem>) :
-    RecyclerView.Adapter<StoryAdapter.ViewHolder>() {
+class StoryAdapter :
+    PagingDataAdapter<ListStoryItem, StoryAdapter.ViewHolder>(DIFF_CALLBACK) {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(storyItem: ListStoryItem) {
@@ -37,13 +39,24 @@ class StoryAdapter(private var listStories: List<ListStoryItem>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(listStories[position])
+        val listStory = getItem(position)
+        if (listStory != null) {
+            holder.bind(listStory)
+        }
     }
 
-    override fun getItemCount(): Int = listStories.size
+    companion object {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ListStoryItem>() {
+            override fun areItemsTheSame(oldItem: ListStoryItem, newItem: ListStoryItem): Boolean {
+                return oldItem == newItem
+            }
 
-    fun submitList(newList: List<ListStoryItem>) {
-        listStories = newList
-        notifyDataSetChanged()
+            override fun areContentsTheSame(
+                oldItem: ListStoryItem,
+                newItem: ListStoryItem
+            ): Boolean {
+                return oldItem.id == newItem.id
+            }
+        }
     }
 }

@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
                 finish()
             } else {
                 setupRecycleView()
-                mainViewModel.getStories()
+                mainViewModel.stories
             }
         }
         setupView()
@@ -46,8 +46,8 @@ class MainActivity : AppCompatActivity() {
             showLoading(it)
         }
 
-        mainViewModel.storyResponse.observe(this) { story ->
-            storyAdapter.submitList(story)
+        mainViewModel.stories.observe(this) {
+            storyAdapter.submitData(lifecycle, it)
         }
 
         binding.btnAddStory.setOnClickListener {
@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupRecycleView() {
-        storyAdapter = StoryAdapter(emptyList())
+        storyAdapter = StoryAdapter()
         binding.rvStories.apply {
             adapter = storyAdapter
             layoutManager = LinearLayoutManager(context)
@@ -85,6 +85,7 @@ class MainActivity : AppCompatActivity() {
             R.id.btnLogout -> {
                 mainViewModel.logout()
             }
+
             R.id.btnMaps -> {
                 val intentMaps = Intent(this, MapsActivity::class.java)
                 startActivity(intentMaps)

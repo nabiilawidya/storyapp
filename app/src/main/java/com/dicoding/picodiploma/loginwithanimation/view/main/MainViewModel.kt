@@ -5,8 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.dicoding.picodiploma.loginwithanimation.data.AuthRepository
-import com.dicoding.picodiploma.loginwithanimation.data.StoryRepository
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import com.dicoding.picodiploma.loginwithanimation.data.repository.AuthRepository
+import com.dicoding.picodiploma.loginwithanimation.data.repository.StoryRepository
 import com.dicoding.picodiploma.loginwithanimation.data.pref.UserModel
 import com.dicoding.picodiploma.loginwithanimation.data.remote.response.ListStoryItem
 import kotlinx.coroutines.launch
@@ -19,8 +21,6 @@ class MainViewModel(
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
-
-    val storyResponse: LiveData<List<ListStoryItem>> get() = _storyResponse
 
     init {
         loadUserSession()
@@ -38,18 +38,8 @@ class MainViewModel(
         return authRepository.getSession().asLiveData()
     }
 
-    fun getStories() {
-        _isLoading.value = true
-        viewModelScope.launch {
-            try {
-                val listStory = storyRepository.getStories()
-                _storyResponse.value = listStory
-                _isLoading.value = false
-            } catch (e: Exception) {
-                e.printStackTrace()
-                _isLoading.postValue(false)
-            }
-        }
+    val stories: LiveData<PagingData<ListStoryItem>> by lazy {
+        storyRepository.getStories().cachedIn(viewModelScope)
     }
 
     fun logout() {

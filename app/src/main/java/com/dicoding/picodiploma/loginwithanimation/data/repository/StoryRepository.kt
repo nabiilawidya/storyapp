@@ -1,5 +1,11 @@
-package com.dicoding.picodiploma.loginwithanimation.data
+package com.dicoding.picodiploma.loginwithanimation.data.repository
 
+import androidx.lifecycle.LiveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.liveData
+import com.dicoding.picodiploma.loginwithanimation.data.StoryPagingSource
 import com.dicoding.picodiploma.loginwithanimation.data.remote.response.ListStoryItem
 import com.dicoding.picodiploma.loginwithanimation.data.remote.retrofit.StoryApiService
 import okhttp3.MultipartBody
@@ -8,13 +14,12 @@ import okhttp3.RequestBody
 class StoryRepository private constructor(
     private val storyApiService: StoryApiService
 ) {
-    suspend fun getStories(): List<ListStoryItem> {
-        val response = storyApiService.getStories()
-        return if (response.error == false) {
-            response.listStory?.filterNotNull() ?: emptyList()
-        } else {
-            throw Exception("Error fetching stories: ${response.message}")
-        }
+    fun getStories(): LiveData<PagingData<ListStoryItem>> {
+        return Pager(config = PagingConfig(
+            pageSize = 5
+        ), pagingSourceFactory = {
+            StoryPagingSource(storyApiService)
+        }).liveData
     }
 
     suspend fun addStory(
