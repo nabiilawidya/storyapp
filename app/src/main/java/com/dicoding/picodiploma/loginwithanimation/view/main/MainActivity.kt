@@ -12,6 +12,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.picodiploma.loginwithanimation.R
+import com.dicoding.picodiploma.loginwithanimation.adapter.LoadingStateAdapter
 import com.dicoding.picodiploma.loginwithanimation.adapter.StoryAdapter
 import com.dicoding.picodiploma.loginwithanimation.databinding.ActivityMainBinding
 import com.dicoding.picodiploma.loginwithanimation.view.ViewModelFactory
@@ -70,7 +71,11 @@ class MainActivity : AppCompatActivity() {
     private fun setupRecycleView() {
         storyAdapter = StoryAdapter()
         binding.rvStories.apply {
-            adapter = storyAdapter
+            adapter = storyAdapter.withLoadStateFooter(
+                footer = LoadingStateAdapter {
+                    storyAdapter.retry()
+                }
+            )
             layoutManager = LinearLayoutManager(context)
         }
     }
@@ -97,6 +102,4 @@ class MainActivity : AppCompatActivity() {
     private fun showLoading(isLoading: Boolean) {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
-
-
 }
