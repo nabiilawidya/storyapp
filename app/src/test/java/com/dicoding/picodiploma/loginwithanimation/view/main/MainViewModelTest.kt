@@ -34,7 +34,7 @@ class MainViewModelTest {
     val instantExecutorRule = InstantTaskExecutorRule()
 
     @get:Rule
-    val mainDispatcherRules = MainDispatcherRule()
+    val mainDispatcherRule = MainDispatcherRule()
 
     @Mock
     private lateinit var authRepository: AuthRepository
@@ -66,8 +66,11 @@ class MainViewModelTest {
         )
         differ.submitData(actualStories)
 
+        // Memastikan data tidak null
         assertNotNull(differ.snapshot())
+        // Memastikan jumlah data sesuai dengan yang diharapkan
         assertEquals(dummyStory.size, differ.snapshot().size)
+        // Memastikan data pertama yang dikembalikan sesuai
         assertEquals(dummyStory[0], differ.snapshot()[0])
     }
 
@@ -87,6 +90,7 @@ class MainViewModelTest {
         )
         differ.submitData(actualStories)
 
+        // Memastikan jumlah data yang dikembalikan nol
         assertEquals(0, differ.snapshot().size)
     }
 }
