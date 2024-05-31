@@ -27,7 +27,7 @@ class MainViewModel(
 
     private fun loadUserSession() {
         viewModelScope.launch {
-            authRepository.getSession().collect { userModel ->
+            authRepository.getSession().collect { userModel -> //line 30
                 _userSession.value = userModel
             }
         }

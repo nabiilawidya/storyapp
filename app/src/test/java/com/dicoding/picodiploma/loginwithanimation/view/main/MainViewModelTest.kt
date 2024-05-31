@@ -8,6 +8,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import androidx.recyclerview.widget.ListUpdateCallback
 import com.dicoding.picodiploma.loginwithanimation.adapter.StoryAdapter
+import com.dicoding.picodiploma.loginwithanimation.data.pref.UserModel
 import com.dicoding.picodiploma.loginwithanimation.data.remote.response.ListStoryItem
 import com.dicoding.picodiploma.loginwithanimation.data.repository.AuthRepository
 import com.dicoding.picodiploma.loginwithanimation.data.repository.StoryRepository
@@ -16,6 +17,7 @@ import com.dicoding.picodiploma.loginwithanimation.view.MainDispatcherRule
 import com.dicoding.picodiploma.loginwithanimation.view.getOrAwaitValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 import org.junit.Before
@@ -46,6 +48,8 @@ class MainViewModelTest {
 
     @Before
     fun setUp() {
+        Mockito.`when`(authRepository.getSession())
+            .thenReturn(flowOf(UserModel("email@example.com", "token", true)))
         mainViewModel = MainViewModel(authRepository, storyRepository)
     }
 
@@ -66,11 +70,8 @@ class MainViewModelTest {
         )
         differ.submitData(actualStories)
 
-        // Memastikan data tidak null
         assertNotNull(differ.snapshot())
-        // Memastikan jumlah data sesuai dengan yang diharapkan
         assertEquals(dummyStory.size, differ.snapshot().size)
-        // Memastikan data pertama yang dikembalikan sesuai
         assertEquals(dummyStory[0], differ.snapshot()[0])
     }
 
@@ -89,8 +90,6 @@ class MainViewModelTest {
             workerDispatcher = Dispatchers.Main,
         )
         differ.submitData(actualStories)
-
-        // Memastikan jumlah data yang dikembalikan nol
         assertEquals(0, differ.snapshot().size)
     }
 }
